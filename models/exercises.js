@@ -4,6 +4,7 @@ const Exercises = new mongoose.Schema({
   userName: String,
   userId: {
     type: String,
+    ref: "Users",
     index: true
   },
   description: {
