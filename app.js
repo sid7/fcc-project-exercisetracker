@@ -1,17 +1,49 @@
 const Users = require("./users.js");
 const Exercises = require("./exercises.js");
 
-exports.newUser = function(req, res) {
+exports.newUser = function(req, res, next) {
   const user = new Users(req.body);
   user.save(function(err, savedUser) {
     if(err) {
-      return;
+      return next(err);
     }
+    res.json({
+      userName: savedUser.userName,
+      _id: savedUser._id
+    })
   })
 }
 
-exports.addExercises = function() {}
+exports.addExercises = function(req, res, next) {
+  Users.findById(req.body.userId, function(err, user) {
+    if(err) {
+      return next(err);
+    }
+    if(!user) {
+      return next({
+        status: 400,
+        message: "unknown _id"
+      });
+    }
+    const exercises = new Exercises(req.body);
+    exercises.userName = user.userName;
+    exercises.save(function(err, savedExercises) {
+      if(err) {
+        return next(err);
+      }
+    });
+  })
+}
 
-exports.getAllUsers = function() {}
+exports.getAllUsers = function(req, res, next) {
+  Users.find({}, function(err, userLst) {
+    if(err) {
+      return next(err);
+    }
+    res.json(userLst);
+  })
+}
 
-exports.log = function() {}
+exports.log = function(req, res, next) {
+  
+}
