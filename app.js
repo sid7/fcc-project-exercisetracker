@@ -31,7 +31,13 @@ exports.getAllUsers = function(req, res, next) {
   })
 }
 
+/*
+ * Format response
+ **/
 function formatForRes(obj) {
+  obj.date = new Date(obj.date).toDateString();
+  obj._id = obj.userId;
+  delete obj.userId;
   delete obj.__v;
   return obj;
 }
