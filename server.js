@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+const myApp = require("./app");
 
 const cors = require('cors')
 
@@ -20,6 +21,8 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
+app.post("/api/exercise/new-user", myApp.newUser);
+app.get("/api/exercise/users", myApp.getAllUsers);
 
 // Not found middleware
 app.use((req, res, next) => {

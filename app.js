@@ -1,5 +1,5 @@
-const Users = require("./users.js");
-const Exercises = require("./exercises.js");
+const Users = require("./models/users.js");
+const Exercises = require("./models/exercises.js");
 
 exports.newUser = function(req, res, next) {
   const user = new Users(req.body);

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const shortid = require("shortid");
 
 const Users = new mongoose.Schema({
   userName: {
@@ -8,7 +9,8 @@ const Users = new mongoose.Schema({
   },
   _id: {
     type: String,
-    index: true
+    index: true,
+    default: shortid.generate
   }
 });
 
