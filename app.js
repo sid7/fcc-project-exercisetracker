@@ -47,8 +47,15 @@ exports.addExercises = function(req, res, next) {
         message: "unknown _id"
       });
     }
+    
+    let body = req.body;
+    body.date = body.date === "" ? unefined
+    
     const exercises = new Exercises(req.body);
     exercises.userName = user.userName;
+    if(exercises.date === "") {
+      exercises.date = undefined;
+    }
     exercises.save(function(err, savedExercises) {
       if(err) {
         return next(err);
