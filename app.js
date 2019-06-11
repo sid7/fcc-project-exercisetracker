@@ -105,7 +105,12 @@ exports.log = function(req, res, next) {
             userName: user.userName,
             from: from != "Invalid Date" ? from.getTime() : undefined,
             to: to != "Invalid Date" ? to.getTime() : undefined,
-            count: exc.length
+            count: exc.length,
+            log: exc.map(e => ({
+              description: e.description,
+              duration: e.duration,
+              date: new Date(e.date).toDateString()
+            }))
           })
         }
     });
