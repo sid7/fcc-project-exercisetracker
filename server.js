@@ -21,6 +21,10 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
+app.use("/api/exercise/", function() {
+  
+})
+
 app.post("/api/exercise/new-user", myApp.newUser);
 app.get("/api/exercise/users", myApp.getAllUsers);
 app.post("/api/exercise/add", myApp.addExercises);

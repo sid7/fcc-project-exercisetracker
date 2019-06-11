@@ -40,6 +40,8 @@ exports.addExercises = function(req, res, next) {
       if(err) {
         return next(err);
       }
+      console.log({savedExercises});
+      res.json(savedExercises.toObject());
     });
   })
 }
