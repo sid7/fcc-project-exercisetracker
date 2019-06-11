@@ -32,7 +32,7 @@ exports.getAllUsers = function(req, res, next) {
 }
 
 /*
- * Format response
+ * Format response for added Exercises
  **/
 function formatForRes(obj) {
   obj.date = new Date(obj.date).toDateString();
@@ -58,14 +58,13 @@ exports.addExercises = function(req, res, next) {
       });
     }
     
-    let body = req.body;
+    const body = req.body;
+    // date with empty string will not get default value
+    // require strict undefined
     body.date = body.date === "" ? undefined : body.date;
     
     const exercises = new Exercises(body);
     exercises.userName = user.userName;
-    if(exercises.date === "") {
-      exercises.date = undefined;
-    }
     exercises.save(function(err, savedExercises) {
       if(err) {
         return next(err);
