@@ -78,5 +78,17 @@ exports.log = function(req, res, next) {
   const from = new Date(req.query.from);
   const to = new Date(req.query.to);
   const limit = req.query.limit;
+  const userId = req.query.userId;
   
+  Users.findById(userId, function(err, user) {
+    if(err) {
+      return next({ status: 400, message: "unknown userId" });
+    }
+    Exercises.find({
+      userId: userId,
+      date: {
+        $lt: 
+      }
+    });
+  })
 }
