@@ -31,11 +31,15 @@ exports.getAllUsers = function(req, res, next) {
   })
 }
 
+function formatForRes(obj) {
+  delete obj.__v;
+  return obj;
+}
+
 /**
  * Add new Exercises for a user
  * POST req: /api/exercise/add
  */
-
 exports.addExercises = function(req, res, next) {
   Users.findById(req.body.userId, function(err, user) {
     if(err) {
@@ -49,9 +53,9 @@ exports.addExercises = function(req, res, next) {
     }
     
     let body = req.body;
-    body.date = body.date === "" ? unefined
+    body.date = body.date === "" ? undefined : body.date;
     
-    const exercises = new Exercises(req.body);
+    const exercises = new Exercises(body);
     exercises.userName = user.userName;
     if(exercises.date === "") {
       exercises.date = undefined;
@@ -60,8 +64,7 @@ exports.addExercises = function(req, res, next) {
       if(err) {
         return next(err);
       }
-      console.log({savedExercises});
-      res.json(savedExercises.toObject());
+      res.json(formatForRes(savedExercises.toObject()));
     });
   })
 }
