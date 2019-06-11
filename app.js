@@ -14,6 +14,15 @@ exports.newUser = function(req, res, next) {
   })
 }
 
+exports.getAllUsers = function(req, res, next) {
+  Users.find({}, function(err, userLst) {
+    if(err) {
+      return next(err);
+    }
+    res.json(userLst);
+  })
+}
+
 exports.addExercises = function(req, res, next) {
   Users.findById(req.body.userId, function(err, user) {
     if(err) {
@@ -32,15 +41,6 @@ exports.addExercises = function(req, res, next) {
         return next(err);
       }
     });
-  })
-}
-
-exports.getAllUsers = function(req, res, next) {
-  Users.find({}, function(err, userLst) {
-    if(err) {
-      return next(err);
-    }
-    res.json(userLst);
   })
 }
 

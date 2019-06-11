@@ -23,6 +23,8 @@ app.get('/', (req, res) => {
 
 app.post("/api/exercise/new-user", myApp.newUser);
 app.get("/api/exercise/users", myApp.getAllUsers);
+app.post("/api/exercise/add", myApp.addExercises);
+app.get("/api/exercise/log", myApp.log);
 
 // Not found middleware
 app.use((req, res, next) => {
