@@ -103,8 +103,8 @@ exports.log = function(req, res, next) {
           res.json({
             _id: userId,
             userName: user.userName,
-            from: from != "Invalid Date" ? from.getTime() : undefined,
-            to: to != "Invalid Date" ? to.getTime() : undefined,
+            from: from.getTime() || undefined,
+            to: to.getTime() || undefined,
             count: exc.length,
             log: exc.map(e => ({
               description: e.description,
