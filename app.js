@@ -75,5 +75,8 @@ exports.addExercises = function(req, res, next) {
 }
 
 exports.log = function(req, res, next) {
+  const from = new Date(req.query.from);
+  const to = new Date(req.query.to);
+  const limit = req.query.limit;
   
 }
