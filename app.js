@@ -1,6 +1,10 @@
 const Users = require("./models/users.js");
 const Exercises = require("./models/exercises.js");
 
+/**
+ * Add new user in db
+ * POST req: /api/exercise/new-user
+ */
 exports.newUser = function(req, res, next) {
   const user = new Users(req.body);
   user.save(function(err, savedUser) {
@@ -14,6 +18,10 @@ exports.newUser = function(req, res, next) {
   })
 }
 
+/**
+ * get list of users from db
+ * GET req: /api/exercise/
+ */
 exports.getAllUsers = function(req, res, next) {
   Users.find({}, function(err, userLst) {
     if(err) {
@@ -22,6 +30,11 @@ exports.getAllUsers = function(req, res, next) {
     res.json(userLst);
   })
 }
+
+/**
+ * Add new Exercises for a user
+ * POST req: /api/exercise/add
+ */
 
 exports.addExercises = function(req, res, next) {
   Users.findById(req.body.userId, function(err, user) {
