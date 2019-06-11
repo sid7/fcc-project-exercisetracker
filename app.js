@@ -77,18 +77,37 @@ exports.addExercises = function(req, res, next) {
 exports.log = function(req, res, next) {
   const from = new Date(req.query.from);
   const to = new Date(req.query.to);
-  const limit = req.query.limit;
+  const limit = parseInt(req.query.limit);
   const userId = req.query.userId;
   
   Users.findById(userId, function(err, user) {
     if(err) {
       return next({ status: 400, message: "unknown userId" });
     }
-    Exercises.find({
-      userId: userId,
-      date: {
-        $lt: 
-      }
+    Exercises
+      .find({
+        userId: userId,
+        date: {
+          $lt: to != "Invalid Date" ? to.getTime() : Date.now(),
+          $gt: from != "Invalid Date" ? from.getTime(): 0
+        }
+      }, {
+        __v: 0,
+        _id: 0
+      })
+      .sort("-date")
+      .limit(limit)
+      .exec(function(err, exc) {
+        if(err) {
+          return next(err);
+          res.json({
+            _id: userId,
+            userName: user.userName,
+            from: from != "Invalid Date" ? from.getTime() : undefined,
+            to: to != "Invalid Date" ? to.getTime() : undefined,
+            count: exc.length
+          })
+        }
     });
   })
 }
