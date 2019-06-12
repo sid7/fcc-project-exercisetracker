@@ -75,7 +75,7 @@ exports.addExercises = function(req, res, next) {
 }
 
 /**
- * User Exercise log
+ * get user's Exercise log
  * GET req: /api/exercise/log?{userId}&[limit, from, to]
  */
 exports.log = function(req, res, next) {
@@ -84,12 +84,14 @@ exports.log = function(req, res, next) {
   const limit = parseInt(req.query.limit);
   const userId = req.query.userId;
   
+  console.log(userId);
   if(!userId) {
     return next({ status: 400, message: "empty userId" });
   }
   
   Users.findById(userId, function(err, user) {
     if(err) {
+      console.log({ err, at: "finding-user" });
       return next({ status: 400, message: "unknown userId" });
     }
     const query = Exercises.find({
@@ -98,26 +100,27 @@ exports.log = function(req, res, next) {
         $lt: to != "Invalid Date" ? to.getTime() : Date.now(),
         $gte: from != "Invalid Date" ? from.getTime(): 0
       }
-    }, "-_id").sort("-date");
+    }).sort("-date");
     if(limit) {
      query.limit(limit); 
     }
     query.exec(function(err, exc) {
-        if(err) {
-          return next(err);
-          res.json({
-            _id: userId,
-            userName: user.userName,
-            from: from.getTime() || undefined,
-            to: to.getTime() || undefined,
-            count: exc.length,
-            log: exc.map(e => ({
-              description: e.description,
-              duration: e.duration,
-              date: new Date(e.date).toDateString()
-            }))
-          })
-        }
+      if(err) {
+        console.log({ err, at: "exec query" })
+        return next(err);
+      }
+      res.json({
+        _id: userId,
+        userName: user.userName,
+        from: from.getTime() || undefined,
+        to: to.getTime() || undefined,
+        count: exc.length,
+        log: exc.map(e => ({
+          description: e.description,
+          duration: e.duration,
+          date: new Date(e.date).toDateString()
+        }))
+      });      
     });
   })
 }
