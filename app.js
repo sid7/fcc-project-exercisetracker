@@ -80,6 +80,10 @@ exports.log = function(req, res, next) {
   const limit = parseInt(req.query.limit);
   const userId = req.query.userId;
   
+  if(!userId) {
+    return next({ status: 400, message: "empty userId" });
+  }
+  
   Users.findById(userId, function(err, user) {
     if(err) {
       return next({ status: 400, message: "unknown userId" });
