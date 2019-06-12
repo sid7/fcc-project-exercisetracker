@@ -88,17 +88,17 @@ exports.log = function(req, res, next) {
     if(err) {
       return next({ status: 400, message: "unknown userId" });
     }
-    Exercises
-      .find({
-        userId: userId,
-        date: {
-          $lt: to != "Invalid Date" ? to.getTime() : Date.now(),
-          $gt: from != "Invalid Date" ? from.getTime(): 0
-        }
-      }, "-_id")
-      .sort("-date")
-      .limit(limit)
-      .exec(function(err, exc) {
+    const query = Exercises.find({
+      userId: userId,
+      date: {
+        $lt: to != "Invalid Date" ? to.getTime() : Date.now(),
+        $gte: from != "Invalid Date" ? from.getTime(): 0
+      }
+    }, "-_id").sort("-date");
+    if(limit) {
+     query.limit(limit); 
+    }
+    query.exec(function(err, exc) {
         if(err) {
           return next(err);
           res.json({
