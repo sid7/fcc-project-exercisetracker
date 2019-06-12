@@ -95,10 +95,7 @@ exports.log = function(req, res, next) {
           $lt: to != "Invalid Date" ? to.getTime() : Date.now(),
           $gt: from != "Invalid Date" ? from.getTime(): 0
         }
-      }, {
-        __v: 0,
-        _id: 0
-      })
+      }, "-_id")
       .sort("-date")
       .limit(limit)
       .exec(function(err, exc) {
