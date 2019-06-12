@@ -74,6 +74,10 @@ exports.addExercises = function(req, res, next) {
   })
 }
 
+/**
+ * User Exercise log
+ * GET req: /api/exercise/log?{userId}&[limit, from, to]
+ */
 exports.log = function(req, res, next) {
   const from = new Date(req.query.from);
   const to = new Date(req.query.to);
