@@ -32,7 +32,7 @@ exports.getAllUsers = function(req, res, next) {
 }
 
 /*
- * Format response for added Exercises
+ * Format added Exercises obj for response
  **/
 function formatForRes(obj) {
   obj.date = new Date(obj.date).toDateString();
